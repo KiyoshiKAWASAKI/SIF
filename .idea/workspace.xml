@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0defc8c0-7e41-427b-a6a9-6f123d7aa582" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/examples/sif_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/sif_embedding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SIF_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/SIF_embedding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_io.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/examples/sif_embedding.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="104" column="48" selection-start-line="104" selection-start-column="48" selection-end-line="104" selection-end-column="48" />
+            <state relative-caret-position="603">
+              <caret line="198" column="74" selection-start-line="198" selection-start-column="74" selection-end-line="198" selection-end-column="74" />
               <folding>
                 <element signature="e#75#85#0" expanded="true" />
               </folding>
@@ -179,12 +177,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1676839008451</updated>
-      <workItem from="1676839013003" duration="5978000" />
+      <workItem from="1676839013003" duration="12948000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5978000" />
+    <option name="totallyTimeSpent" value="12948000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
@@ -197,7 +195,7 @@
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" weight="0.32970297" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="File Transfer" weight="0.32970297" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -247,6 +245,9 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/params.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/SIF_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-241">
@@ -257,13 +258,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/params.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/sif_embedding.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="104" column="48" selection-start-line="104" selection-start-column="48" selection-end-line="104" selection-end-column="48" />
+        <state relative-caret-position="603">
+          <caret line="198" column="74" selection-start-line="198" selection-start-column="74" selection-end-line="198" selection-end-column="74" />
           <folding>
             <element signature="e#75#85#0" expanded="true" />
           </folding>

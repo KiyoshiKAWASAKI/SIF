@@ -2,10 +2,26 @@
 # Pipeline for running SIF on triplets data
 
 import sys
+import os
 import numpy as np
 import json
 sys.path.append('../src')
 import data_io, params, SIF_embedding
+import shutil
+from string import punctuation, digits
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+stop_words = stopwords.words("english")
+import emoji
+import translators as ts
+import translators.server as tss
 
 #############################################################
 #  Input paths and parameters (no need to change these)
@@ -47,6 +63,7 @@ print("We loaded.")
 sentences = ['Willy is a cat',
              'Willy is a very cute and handsome cat']
 
+
 #############################################################
 #  My data paths
 #############################################################
@@ -62,6 +79,39 @@ save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
 #############################################################
 #  Process Data
 #############################################################
+# text preprocessing
+# Note: code is copied from SAFE
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'\d+', '', text)
+    remove_chars = '[0-9’!"#$%&\'()*+,-./:;<=>?@，。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+    text = re.sub(remove_chars, ' ', text)
+
+    text = text.strip()
+    tokens = word_tokenize(text)
+    tokens = [token for token in tokens if token not in stop_words]
+
+    stemmer= PorterStemmer()
+    tokens = [stemmer.stem(token) for token in tokens]
+
+    lemmatizer=WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(token) for token in tokens]
+
+    return tokens
+
+
+# Remove Emojis in texts
+def give_emoji_free_text(text):
+    # allchars = [str for str in text.decode('utf-8')]
+    allchars = [str for str in text]
+    emoji_list = [c for c in allchars if c in emoji.EMOJI_DATA]
+    # clean_text = ' '.join([str for str in text.decode('utf-8').split() if not any(i in str for i in emoji_list)])
+    clean_text = ' '.join([str for str in text.split() if not any(i in str for i in emoji_list)])
+
+    return clean_text
+
+
+
 def generate_sif_embedding(data_dir,
                            save_dir,
                            weight=weightfile,
@@ -78,25 +128,77 @@ def generate_sif_embedding(data_dir,
     :param parameters:
     :return:
     """
+    # Loop thru all the dir and files
+    for path, subdirs, files in os.walk(data_dir):
+        for name in files:
+            # Check the subfolder, and make dir for save path if it does not exist
+            current_folder = path.split("/")[-1]
+            target_save_dir = os.path.join(save_dir, current_folder)
 
-    # load word weights
-    # word2weight['str'] is the weight for the word 'str'
-    print("Calculating words2weight.")
-    word2weight = data_io.getWordWeight(weight, param)
+            if not os.path.isdir(target_save_dir):
+                os.mkdir(target_save_dir)
+                print("Making directory: ", target_save_dir)
 
-    # weight4ind[i] is the weight for the i-th word
-    print("Calculating weight4ind.")
-    weight4ind = data_io.getWeight(words_file, word2weight)
+            # Check whether this is a json file
+            if name.endswith('.json'):
+                # Load json file
+                with open(os.path.join(path, name), 'r') as f:
+                    json_data = json.load(f)
 
-    # load sentences
-    print("Load samples...")
-    x, m = data_io.sentences2idx(sentences, words) # x is the array of word indices, m is the binary mask indicating whether there is a word in that location
-    w = data_io.seq2weight(x, m, weight4ind) # get word weights
+                #####################################################
+                #  Pre-processing
+                #####################################################
+                sentences = json_data["description"]
+                # print("Original:", sentences)
 
-    # get SIF embedding
-    print("Calculate embedding...")
-    embedding = SIF_embedding.SIF_embedding(We, x, w, parameters) # embedding[i,:] is the embedding for sentence i
-    print(embedding.shape)
+                # Remove Emojis first
+                sentences = give_emoji_free_text(sentences)
+
+                if len(sentences) == 0:
+                    print("Skipping file: ", name)
+                    continue
+
+                # Translate Russian to English
+                from_language, to_language = 'ru', 'en'
+                sentences = tss.google(sentences, from_language, to_language)
+                # result is a whole string
+                # print("English translation:", sentences)
+
+
+                # clean up texts
+                sentences = clean_text(sentences)
+                # print("Cleaned sentences:", sentences)
+
+                #####################################################
+                #  Word2Vector
+                #####################################################
+                # Load word weights
+                # word2weight['str'] is the weight for the word 'str'
+                # print("Calculating words2weight.")
+                word2weight = data_io.getWordWeight(weight, param)
+
+                # weight4ind[i] is the weight for the i-th word
+                # print("Calculating weight4ind.")
+                weight4ind = data_io.getWeight(words_file, word2weight)
+
+                # Calculate weight and index
+                # print("Load samples...")
+                # x is the array of word indices, m is the binary mask indicating
+                # whether there is a word in that location
+                x, m = data_io.sentences2idx(sentences, words)
+                w = data_io.seq2weight(x, m, weight4ind) # get word weights
+
+                # Get SIF embedding
+                # print("Calculate embedding...")
+                # embedding[i,:] is the embedding for sentence i
+                embedding = SIF_embedding.SIF_embedding(We, x, w, parameters)
+                print(embedding.shape) # [nb_words, 300]
+
+                # Save embedding into npy
+                file_name = name.split(".")[0] + "_sif_embedding.npy"
+                file_save_path = os.path.join(save_sif_dir, current_folder, file_name)
+                np.save(file_save_path, embedding)
+                print("Saving one embedding to: ", file_save_path)
 
 
 
