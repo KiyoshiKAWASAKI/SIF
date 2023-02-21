@@ -185,8 +185,11 @@ def generate_sif_embedding(data_dir,
                 # print("Load samples...")
                 # x is the array of word indices, m is the binary mask indicating
                 # whether there is a word in that location
-                x, m = data_io.sentences2idx(sentences, words)
-                w = data_io.seq2weight(x, m, weight4ind) # get word weights
+                try:
+                    x, m = data_io.sentences2idx(sentences, words)
+                    w = data_io.seq2weight(x, m, weight4ind) # get word weights
+                except:
+                    print("Skipping file: ", name)
 
                 # Get SIF embedding
                 # print("Calculate embedding...")
@@ -199,7 +202,6 @@ def generate_sif_embedding(data_dir,
                 file_save_path = os.path.join(save_sif_dir, current_folder, file_name)
                 np.save(file_save_path, embedding)
                 print("Saving one embedding to: ", file_save_path)
-
 
 
 if __name__ == '__main__':
