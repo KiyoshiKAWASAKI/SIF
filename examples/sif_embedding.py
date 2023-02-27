@@ -69,11 +69,18 @@ sentences = ['Willy is a cat',
 #############################################################
 # TODO: this part is the paths for debugging data
 # 381 sets from Jan for debugging
-triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/" \
-                    "jhuang24/safe_data/jan01_jan02_2023_triplets"
+# triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/" \
+#                     "jhuang24/safe_data/jan01_jan02_2023_triplets"
+#
+# save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+#                "safe_data/jan01_jan02_2023_triplets_sif"
+
+# TODO: This is the paths for show and tell captions (debugging)
+triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+                    "safe_data/jan01_jan02_2023_triplets_captions"
 
 save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
-               "safe_data/jan01_jan02_2023_triplets_sif"
+               "safe_data/jan01_jan02_2023_triplets_captions_sif"
 
 
 #############################################################
@@ -114,6 +121,7 @@ def give_emoji_free_text(text):
 
 def generate_sif_embedding(data_dir,
                            save_dir,
+                           translate,
                            weight=weightfile,
                            param=weightpara,
                            words_file=words,
@@ -159,8 +167,9 @@ def generate_sif_embedding(data_dir,
                     continue
 
                 # Translate Russian to English
-                from_language, to_language = 'ru', 'en'
-                sentences = tss.google(sentences, from_language, to_language)
+                if translate:
+                    from_language, to_language = 'ru', 'en'
+                    sentences = tss.google(sentences, from_language, to_language)
                 # result is a whole string
                 # print("English translation:", sentences)
 
@@ -190,6 +199,7 @@ def generate_sif_embedding(data_dir,
                     w = data_io.seq2weight(x, m, weight4ind) # get word weights
                 except:
                     print("Skipping file: ", name)
+                    continue
 
                 # Get SIF embedding
                 # print("Calculate embedding...")
@@ -206,4 +216,5 @@ def generate_sif_embedding(data_dir,
 
 if __name__ == '__main__':
     generate_sif_embedding(data_dir=triplets_root_dir,
-                           save_dir=save_sif_dir)
+                           save_dir=save_sif_dir,
+                           translate=False)
