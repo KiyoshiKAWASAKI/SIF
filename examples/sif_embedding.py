@@ -76,11 +76,25 @@ sentences = ['Willy is a cat',
 #                "safe_data/jan01_jan02_2023_triplets_sif"
 
 # TODO: This is the paths for show and tell captions (debugging)
+# triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+#                     "safe_data/jan01_jan02_2023_triplets_captions"
+#
+# save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+#                "safe_data/jan01_jan02_2023_triplets_captions_sif"
+
+# TODO: Generate SIF For gossipcop
+# triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+#                     "safe_data/FakeNewsNet_Dataset_captions/gossipcop"
+#
+# save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
+#                "safe_data/FakeNewsNet_Dataset_captions_sif/gossipcop"
+
+# TODO: Generate SIF For politifact
 triplets_root_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
-                    "safe_data/jan01_jan02_2023_triplets_captions"
+                    "safe_data/FakeNewsNet_Dataset_captions/politifact"
 
 save_sif_dir = "/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/" \
-               "safe_data/jan01_jan02_2023_triplets_captions_sif"
+               "safe_data/FakeNewsNet_Dataset_captions_sif/politifact"
 
 
 #############################################################

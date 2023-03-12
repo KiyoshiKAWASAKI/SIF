@@ -4,7 +4,7 @@
 #$ -m abe
 #$ -q long
 #$ -e errors/
-#$ -N gen_sif_small_set
+#$ -N gen_sif_politifact
 
 # Required modules
 module load conda
