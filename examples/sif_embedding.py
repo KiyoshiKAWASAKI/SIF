@@ -301,8 +301,12 @@ def generate_icwsm_sif_embedding(data_dir,
 
                 # Translate Russian to English
                 if translate:
-                    from_language, to_language = 'ru', 'en'
-                    sentences = tss.google(sentences, from_language, to_language)
+                    try:
+                        from_language, to_language = 'ru', 'en'
+                        sentences = tss.google(sentences, from_language, to_language)
+                    except:
+                        print("cannot translate this post.")
+                        continue
 
                 # clean up texts
                 sentences = clean_text(sentences)
