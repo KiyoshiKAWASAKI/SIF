@@ -4,7 +4,7 @@
 #$ -m abe
 #$ -q long
 #$ -e errors/
-#$ -N gen_sif_icwsm
+#$ -N gen_icwsm_caption_sif
 
 # Required modules
 module load conda

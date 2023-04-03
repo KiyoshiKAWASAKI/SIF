@@ -7,7 +7,7 @@ wordfiles = [#'../data/paragram_sl999_small.txt', # need to download it from Joh
     '../data/glove.840B.300d.txt'  # need to download it first
     ]
 
-weightfile = '../auxiliary_data/enwiki_vocab_min200.txt'
+weightfile = '/afs/crc.nd.edu/group/cvrl/scratch_49/jhuang24/safe_data/enwiki_vocab_min200.txt'
 weightparas = [-1, 1e-3]#[-1,1e-1,1e-2,1e-3,1e-4]
 rmpcs = [0,1]# [0,1,2]
 
